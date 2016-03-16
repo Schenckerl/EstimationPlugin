@@ -3,6 +3,7 @@
     <title>My Admin</title>
     <meta name="decorator" content="atl.admin">
     <script type="text/javascript" src="/jira/plugins/servlet/js/estimationplugin.js">alert("hello");</script>
+      $webResourceManager.requireResource("com.atlassian.auiplugin:ajs")
   </head>
   <body>
 
@@ -32,8 +33,15 @@
                     </a>
               </div>
               <div class="field-group">
+                  <label for="name">Name:</label>
+                  <input type="text" id="name" name="name" class="text">
+              </div>
+              <div class="field-group">
+                  <label for="age">Age:</label>
+                  <input type="text" id="age" name="age" class="text">
+              </div>
+              <div class="field-group">
                   <input type="submit" value="Save" class="button">
-                  <a href="${req.contextPath}/browse/${id}" class="cancel">Cancel</a>
               </div>
       </form>
   </body>

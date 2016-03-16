@@ -96,8 +96,8 @@ public class MyPluginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse response)
             throws ServletException, IOException {
         PluginSettings pluginSettings = pluginSettingsFactory.createGlobalSettings();
-        pluginSettings.put(PLUGIN_STORAGE_KEY + ".name", req.getParameter("name"));
-        pluginSettings.put(PLUGIN_STORAGE_KEY + ".age", req.getParameter("age"));
+        pluginSettings.put(PLUGIN_STORAGE_KEY + ".name", "2nd Test name");
+        pluginSettings.put(PLUGIN_STORAGE_KEY + ".age", "testitest age");
         response.sendRedirect("test");
     }
 

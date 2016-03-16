@@ -16,8 +16,12 @@
     <resource type="download" name="estimationplugin.css" location="/css/estimationplugin.css"/>
     <resource type="download" name="estimationplugin.js" location="/js/estimationplugin.js"/>
     <resource type="download" name="images/" location="/images"/>
+    <resource type="download" name ="admin.js" location="/js/admin/admin.js"/>
     <context>estimationplugin</context>
   </web-resource>
+  <rest key="rest" path="/adminServlet" version="1.0">
+    <description>Provides REST resources for the admin UI.</description>
+  </rest>
   <!-- publish our component -->
   <servlet name="myPluginServlet" class="org.catrobat.estimationplugin.admin.MyPluginServlet" key="test">
     <url-pattern>/test</url-pattern>
@@ -53,6 +57,13 @@
         <description>estimation-report.numprog.description</description>
         <type>long</type>
         <default>1</default>
+      </property>
+      <property>
+        <key>usergroup</key>
+        <name>estimation-report.usergroup</name>
+        <description>estimation-report.usergroup.description</description>
+        <type>select</type>
+        <values class="org.catrobat.estimationplugin.valuegenerator.GroupValuesGenerator" />
       </property>
       <property>
         <key>ldap</key>
