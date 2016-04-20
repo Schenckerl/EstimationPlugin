@@ -2,6 +2,7 @@ package org.catrobat.estimationplugin.admin;
 
 import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.project.Project;
+import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.jira.util.json.JSONArray;
 import com.atlassian.jira.util.json.JSONException;
 import com.atlassian.jira.util.json.JSONObject;
@@ -19,9 +20,8 @@ import com.atlassian.sal.api.auth.LoginUriProvider;
 import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.templaterenderer.TemplateRenderer;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 import com.atlassian.sal.api.pluginsettings.PluginSettings;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 
@@ -86,17 +86,58 @@ public class MyPluginServlet extends HttpServlet {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         context.put("projects", projects);
 
-        templateRenderer.render("admin.vm", context, response.getWriter());
+        templateRenderer.render("admin.vm",context, response.getWriter());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse response)
             throws ServletException, IOException {
         PluginSettings pluginSettings = pluginSettingsFactory.createGlobalSettings();
-        pluginSettings.put(PLUGIN_STORAGE_KEY + ".name", req.getParameter("name"));
-        pluginSettings.put(PLUGIN_STORAGE_KEY + ".age", req.getParameter("age"));
+
+        boolean valid_input = true;
+
+        Object selected_project = req.getParameter("pid");
+        if(selected_project.toString().equals(""))
+            valid_input = false;
+        Object dueDate = req.getParameter("duedate");
+        if(dueDate.toString().equals(""))
+            valid_input = false;
+        Object based_select = req.getParameter("based_select");
+        if(based_select.toString().equals(""))
+           valid_input = false;
+        Object based_month = req.getParameter("based_month");
+        if(based_month.toString().equals(""))
+            valid_input = false;
+        Object selected_method = req.getParameter("method-select");
+
+        String[] selected_pools = req.getParameterValues("workflow-pools");
+
+        String method = selected_method.toString().toLowerCase().replace(" ","");
+        int programmers = Integer.parseInt(req.getParameter("programmers").toString());
+
+        if(!valid_input) {
+            response.sendError(404);
+            //response.sendRedirect("invalidInput");
+            return;
+        }
+
+        ProjectManager manger = ComponentAccessor.getProjectManager();
+        String project_name = manger.getProjectObj((long)Integer.parseInt(selected_project.toString())).getName().toLowerCase();
+
+       /* if(checkForExisstingSettings(project_name,method)) {
+            response.sendError(888, "settings do already exist");
+            return;
+        }*/
+
+        SettingsObject new_settings = new SettingsObject(selected_project,programmers,based_select, selected_pools);
+
+        pluginSettings.put(PLUGIN_STORAGE_KEY + "."+method+"." +project_name, new_settings.serialize());
+
+        //org.catrobat.estimationplugin.forwardcalculation.catroid
+
         response.sendRedirect("test");
     }
 
@@ -111,5 +152,12 @@ public class MyPluginServlet extends HttpServlet {
             builder.append(request.getQueryString());
         }
         return URI.create(builder.toString());
+    }
+
+    private boolean checkForExisstingSettings(String project, String method)
+    {
+        PluginSettings pluginSettings = pluginSettingsFactory.createGlobalSettings();
+        Object value = pluginSettings.get(PLUGIN_STORAGE_KEY+"."+method+"."+project);
+        return (value != null);
     }
 }

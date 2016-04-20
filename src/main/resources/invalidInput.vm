@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>Invalid Input </title>
+        <meta name="decorator" content="atl.general">
+    </head>
+    <body>
+    <div class="aui-message aui-message-error">
+        <p class="title">
+            <strong>Error!</strong>
+        </p>
+        <p>And this is just content in a Default message.</p>
+    </div>
+    </body>
+
+</html>

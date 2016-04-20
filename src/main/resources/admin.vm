@@ -2,12 +2,20 @@
   <head>
     <title>My Admin</title>
     <meta name="decorator" content="atl.admin">
-    <script type="text/javascript" src="/jira/plugins/servlet/js/estimationplugin.js">alert("hello");</script>
+    <script type="text/javascript" src="/jira/plugins/servlet/js/estimationplugin.js"></script>
   </head>
   <body>
-
       <form id="admin" class="aui" action="" method="POST">
-              <div class="field-group" >
+          <div id="aui-message-bar"></div>
+          <div class="field-group">
+              <label for="select-example">Select Method for Settings</label>
+              <select class="select" id="method-select" name="method-select">
+                  <option>Forward Calculation</option>
+                  <option>Backward Calculation</option>
+                  <option>Montly Resolution</option>
+              </select>
+          </div>
+          <div class="field-group" >
                    <label>Project: </label>
                    <input data-container-class="project-ss" type="text" class="project-field" value="10001"
                           id="project" name="pid"/>
@@ -15,12 +23,12 @@
               </div>
               <div class="field-group">
                    <label for="name">#Programmers:</label>
-                   <input type="text" id="programmers" name="name" class="text">
+                   <input type="text" id="programmers" name="programmers" class="text">
               </div>
               <div class="field-group">
                    <label for="name">Based on:</label>
-                   <input type="text" id="based" name="name" class="text" style="max-width:125px">
-                   <select type="text" id="based-select" name="name" class="text" style="max-width:125px">
+                   <input type="text" id="based" name="based_select" class="text" style="max-width:125px">
+                   <select type="text" id="based-select" name="based_month" class="text" style="max-width:125px">
                         <option>Months</option>
                    </select>
               </div>
@@ -32,17 +40,22 @@
                     </a>
               </div>
               <div class="field-group">
-                  <label for="name">Name:</label>
-                  <input type="text" id="name" name="name" class="text">
-              </div>
-              <div class="field-group">
-                  <label for="age">Age:</label>
-                  <input type="text" id="age" name="age" class="text">
+                  <label for="multiselect">Possible Pools</label>
+                  <select class="multi-select" size="4" multiple="multiple" id="workflow-Pools" name="workflow-pools">
+                      <option>UX Done</option>
+                      <option>In Development</option>
+                      <option>Issue Pool</option>
+                      <option>UX Backlog</option>
+                      <option>Closed</option>
+                      <option>UX Development</option>
+                      <option>Backlog</option>
+                  </select>
               </div>
               <div class="field-group">
                   <input type="submit" value="Save" class="button">
                   <a href="${req.contextPath}/browse/${id}" class="cancel">Cancel</a>
               </div>
+                <button onclick=show()>press me</button>
       </form>
   </body>
 </html>
