@@ -4,6 +4,9 @@ package org.catrobat.estimationplugin.rest;
  * Created by dominik on 29.04.16.
  */
 
+import com.atlassian.clover.reporters.json.JSONArray;
+import com.atlassian.clover.reporters.json.JSONException;
+import com.atlassian.clover.reporters.json.JSONObject;
 import org.catrobat.estimationplugin.rest.json.JsonSettings;
 import org.catrobat.estimationplugin.services.ProjectService;
 import com.atlassian.plugin.Plugin;
@@ -34,7 +37,7 @@ public class EstimationRest {
     }
 
     @GET
-    @Path("/settings/{projectID}/{method}")
+    @Path("/check_settings/{projectID}/{method}")
     public Response getCurrentSettings(@Context HttpServletRequest request,
                                        @PathParam("projectID") int projectid,
                                        @PathParam("method") String method)
@@ -46,5 +49,23 @@ public class EstimationRest {
         JsonSettings jsonSettings = new JsonSettings(currentsettings,projectid);
 
         return Response.ok(jsonSettings).build();
+    }
+    @POST
+    @Path("/save_settings/{projectID}/{method}")
+    public Response saveSettings(@Context HttpServletRequest request,
+                                 @PathParam("projectID") int projectid,
+                                 @PathParam("method") String method)
+    {
+        request.getParameterMap();
+
+        JSONObject cool = new JSONObject();
+        JSONArray obj = new JSONArray();
+        obj.put("88");
+        try {
+            cool.put("yay", obj);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return Response.ok(cool).build();
     }
 }

@@ -134,7 +134,7 @@ public class MyPluginServlet extends HttpServlet {
         pluginSettings.put(PLUGIN_STORAGE_KEY + "."+method+"." +project_name, new_settings.serialize());
 
 
-        response.sendRedirect("admin");
+        response.setStatus(200);
     }
 
     private void redirectToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {

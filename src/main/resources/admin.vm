@@ -5,7 +5,7 @@
         $webResourceManager.requireResource("org.catrobat.estimationplugin:administration-resources")
     </head>
     <body>
-        <form id="admin" class="aui" action="" method="POST">
+        <form id="admin" class="aui" action="" id="admin-form">
             <div id="aui-message-bar"></div>
             <div class="field-group">
                 <label for="select-example">Select Method for Settings</label>
@@ -51,10 +51,9 @@
                 </select>
             </div>
             <div class="field-group">
-                <input type="submit" value="Save" class="aui-button aui-button-primary" id ="save">
+                <input value="Save" class="aui-button aui-button-primary" id ="save" onclick="checkForSaveResponse()">
                 <a href="${req.contextPath}/browse/${id}" class="cancel">Cancel</a>
             </div>
-
         </form>
     </body>
 </html>

@@ -16,7 +16,7 @@
     <dependency>com.atlassian.auiplugin:aui-select2</dependency>
     <dependency>com.atlassian.auiplugin:aui-date-picker</dependency>
     <resource type="download" name="estimationplugin.css" location="/css/estimationplugin.css"/>
-    <resource type="download" name="estimationplugin.js" location="/js/estimationplugin.js"/>
+    <resource type="download" name="admin_interface.js" location="/js/admin_interface.js"/>
     <resource type="download" name="images/" location="/images"/>
     <context>admin</context>
   </web-resource>
