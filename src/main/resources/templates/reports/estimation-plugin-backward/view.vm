@@ -1,1 +1,10 @@
 <h1>view.vm</h1>
+<p> Project is $projectName</p>
+<p> settings are $settings</p>
+<p> Debug</p>
+<p> Debug</p>
+<p> Debug</p>
+<p> Debug</p>
+<p> Debug</p>
+
+

@@ -29,3 +29,6 @@ var data = {
 var myLineChart = new Chart(ctx).Line(data);
 })();
 </script>
+
+<h2>Debug</h2>
+<p> </p>

@@ -1,11 +1,13 @@
 package org.catrobat.estimationplugin.admin;
 
+import org.catrobat.estimationplugin.services.ProjectService;
 import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.project.Project;
 import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.jira.util.json.JSONArray;
 import com.atlassian.jira.util.json.JSONException;
 import com.atlassian.jira.util.json.JSONObject;
+import com.atlassian.webresource.api.assembler.PageBuilderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,13 +34,16 @@ public class MyPluginServlet extends HttpServlet {
     private final LoginUriProvider loginUriProvider;
     private final TemplateRenderer templateRenderer;
     private final PluginSettingsFactory pluginSettingsFactory;
+    private final PageBuilderService pageBuilderService;
 
     public MyPluginServlet(UserManager userManager,
-                           LoginUriProvider loginUriProvider, TemplateRenderer templateRenderer, PluginSettingsFactory pluginSettingsFactory) {
+                           LoginUriProvider loginUriProvider, TemplateRenderer templateRenderer, PluginSettingsFactory pluginSettingsFactory,
+                            PageBuilderService pageBuilderservice) {
         this.userManager = userManager;
         this.loginUriProvider = loginUriProvider;
         this.templateRenderer = templateRenderer;
         this.pluginSettingsFactory = pluginSettingsFactory;
+        this.pageBuilderService = pageBuilderservice;
     }
 
     @Override
@@ -49,22 +54,12 @@ public class MyPluginServlet extends HttpServlet {
             return;
         }
 
+        pageBuilderService.assembler().resources().requireWebResource("catraobat.estimation:estimationplugin-resources");
+
         Map<String, Object> context = new HashMap<String, Object>();
 
         PluginSettings pluginSettings = pluginSettingsFactory.createGlobalSettings();
 
-        if (pluginSettings.get(PLUGIN_STORAGE_KEY + ".name") == null) {
-            String noName = "Enter a name here.";
-            pluginSettings.put(PLUGIN_STORAGE_KEY + ".name", noName);
-        }
-
-        if (pluginSettings.get(PLUGIN_STORAGE_KEY + ".age") == null) {
-            String noAge = "Enter an age here.";
-            pluginSettings.put(PLUGIN_STORAGE_KEY + ".age", noAge);
-        }
-
-        context.put("name", pluginSettings.get(PLUGIN_STORAGE_KEY + ".name"));
-        context.put("age", pluginSettings.get(PLUGIN_STORAGE_KEY + ".age"));
         response.setContentType("text/html;charset=utf-8");
 
         Collection<Project> projects = ComponentAccessor.getProjectManager().getProjectObjects();
@@ -124,21 +119,22 @@ public class MyPluginServlet extends HttpServlet {
             return;
         }
 
-        ProjectManager manger = ComponentAccessor.getProjectManager();
-        String project_name = manger.getProjectObj((long)Integer.parseInt(selected_project.toString())).getName().toLowerCase();
+//        ProjectManager manger = ComponentAccessor.getProjectManager();
+//        String project_name = manger.getProjectObj((long)Integer.parseInt(selected_project.toString())).getName().toLowerCase();
 
        /* if(checkForExisstingSettings(project_name,method)) {
             response.sendError(888, "settings do already exist");
             return;
         }*/
 
+        String project_name = ProjectService.getProjectFromId(Integer.parseInt(selected_project.toString()));
+
         SettingsObject new_settings = new SettingsObject(selected_project,programmers,based_select, selected_pools);
 
         pluginSettings.put(PLUGIN_STORAGE_KEY + "."+method+"." +project_name, new_settings.serialize());
 
-        //org.catrobat.estimationplugin.forwardcalculation.catroid
 
-        response.sendRedirect("test");
+        response.sendRedirect("admin");
     }
 
     private void redirectToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {

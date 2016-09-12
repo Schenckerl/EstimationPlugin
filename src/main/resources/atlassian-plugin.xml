@@ -11,20 +11,25 @@
   <!-- add our i18n resource -->
   <resource type="i18n" name="i18n" location="estimationplugin"/>
   <!-- add our web resources -->
-  <web-resource key="estimationplugin-resources" name="estimationplugin Web Resources">
+  <web-resource key="administration-resources" name="administration Web recources">
     <dependency>com.atlassian.auiplugin:ajs</dependency>
+    <dependency>com.atlassian.auiplugin:aui-select2</dependency>
+    <dependency>com.atlassian.auiplugin:aui-date-picker</dependency>
     <resource type="download" name="estimationplugin.css" location="/css/estimationplugin.css"/>
     <resource type="download" name="estimationplugin.js" location="/js/estimationplugin.js"/>
     <resource type="download" name="images/" location="/images"/>
-    <context>estimationplugin</context>
+    <context>admin</context>
   </web-resource>
   <!-- publish our component -->
-  <servlet name="myPluginServlet" class="org.catrobat.estimationplugin.admin.MyPluginServlet" key="test">
-    <url-pattern>/test</url-pattern>
+  <servlet name="myPluginServlet" class="org.catrobat.estimationplugin.admin.MyPluginServlet" key="admin">
+    <url-pattern>/estimationplugin/admin</url-pattern>
   </servlet>
   <servlet name="InvalidInputServlet" class ="org.catrobat.estimationplugin.admin.InvalidInputServlet" key="invalid">
     <url-pattern>/invalidInput</url-pattern>
   </servlet>
+  <rest key="estimationRest" path="/estimation" version="1.0">
+    <description>Provides estimation services.</description>
+  </rest>
   <!-- import from the product container -->
   <component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties"/>
   <component-import key="templateRenderer" interface="com.atlassian.templaterenderer.TemplateRenderer" filter=""/>
@@ -57,13 +62,13 @@
         <type>long</type>
         <default>1</default>
       </property>
-      <property>
+      <!--property>
         <key>usergroup</key>
         <name>estimation-report.usergroup</name>
         <description>estimation-report.usergroup.description</description>
         <type>select</type>
         <values class="org.catrobat.estimationplugin.valuegenerator.GroupValuesGenerator"/>
-      </property>
+      </property-->
       <property>
         <key>ldap</key>
         <name>estimation-report.ldap</name>
@@ -159,16 +164,16 @@
             <key>interval</key>
             <name>estimation-report.interval</name>
             <description>estimation-report.interval.description</description>
-            <type>long</type>
-            <default>3</default>
-        </property>
-        <property>
+           rty>
             <key>filterid</key>
             <name>report.singlelevelgroupby.filterId</name>
             <description>report.singlelevelgroupby.filterId.description</description>
             <type>filterpicker</type>
             <i18n>false</i18n>
+        </property <type>long</type>
+            <default>3</default>
         </property>
+        <prope>
         <property>
             <key>mapper</key>
             <name>report.singlelevelgroupby.mapper</name>

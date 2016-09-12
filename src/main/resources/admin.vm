@@ -1,61 +1,60 @@
 <html>
-  <head>
-    <title>My Admin</title>
-    <meta name="decorator" content="atl.admin">
-    <script type="text/javascript" src="/jira/plugins/servlet/js/estimationplugin.js"></script>
-  </head>
-  <body>
-      <form id="admin" class="aui" action="" method="POST">
-          <div id="aui-message-bar"></div>
-          <div class="field-group">
-              <label for="select-example">Select Method for Settings</label>
-              <select class="select" id="method-select" name="method-select">
-                  <option>Forward Calculation</option>
-                  <option>Backward Calculation</option>
-                  <option>Montly Resolution</option>
-              </select>
-          </div>
-          <div class="field-group" >
-                   <label>Project: </label>
-                   <input data-container-class="project-ss" type="text" class="project-field" value="10001"
-                          id="project" name="pid"/>
-                   <div id="project-options" data-suggestions="$projectSugg"></div>
-              </div>
-              <div class="field-group">
-                   <label for="name">#Programmers:</label>
-                   <input type="text" id="programmers" name="programmers" class="text">
-              </div>
-              <div class="field-group">
-                   <label for="name">Based on:</label>
-                   <input type="text" id="based" name="based_select" class="text" style="max-width:125px">
-                   <select type="text" id="based-select" name="based_month" class="text" style="max-width:125px">
-                        <option>Months</option>
-                   </select>
-              </div>
-              <div class="field-group aui-field-datepicker">
-                    <label for="duedate">Due Date</label>
-                    <input class="text medium-field" id="duedate" name="duedate" type="text" value="">
-                    <a href="#" id="duedate-trigger" title="Select a date">
-                        <span class="icon-default aui-icon aui-icon-small aui-iconfont-calendar">Select a date</span>
-                    </a>
-              </div>
-              <div class="field-group">
-                  <label for="multiselect">Possible Pools</label>
-                  <select class="multi-select" size="4" multiple="multiple" id="workflow-Pools" name="workflow-pools">
-                      <option>UX Done</option>
-                      <option>In Development</option>
-                      <option>Issue Pool</option>
-                      <option>UX Backlog</option>
-                      <option>Closed</option>
-                      <option>UX Development</option>
-                      <option>Backlog</option>
-                  </select>
-              </div>
-              <div class="field-group">
-                  <input type="submit" value="Save" class="button">
-                  <a href="${req.contextPath}/browse/${id}" class="cancel">Cancel</a>
-              </div>
-                <button onclick=show()>press me</button>
-      </form>
-  </body>
+    <head>
+        <title>Administration</title>
+        <meta name="decorator" content="atl.admin">
+        $webResourceManager.requireResource("org.catrobat.estimationplugin:administration-resources")
+    </head>
+    <body>
+        <form id="admin" class="aui" action="" method="POST">
+            <div id="aui-message-bar"></div>
+            <div class="field-group">
+                <label for="select-example">Select Method for Settings</label>
+                <select class="select" id="method-select" name="method-select">
+                    <option>Forward Calculation</option>
+                    <option>Backward Calculation</option>
+                    <option>Montly Resolution</option>
+                </select>
+            </div>
+            <div class="field-group" >
+                <label>Project: </label>
+                <input data-container-class="project-ss" type="text" class="project-field" value="10001"
+                 id="project" name="pid" onchange="test()"/>
+                 <div id="project-options" data-suggestions="$projectSugg"></div>
+                <input value="Check" class="aui-button aui-button-primary" id ="check" onclick="getSettings()">
+            </div>
+            <div class="field-group">
+                <label for="name">#Programmers:</label>
+                <input type="text" id="programmers" name="programmers" class="text">
+            </div>
+            <div class="field-group">
+                <label for="name">Based on:</label>
+                <input type="text" id="based" name="based_select" class="text" style="max-width:125px">
+                <select type="text" id="based-select" name="based_month" class="text" style="max-width:125px">
+                    <option>Months</option>
+                </select>
+            </div>
+            <div class="field-group">
+                <label for="duedate">Due Date</label>
+                <input class="aui-date-picker" id="duedate" type="date" max="2025-01-1" min="2011-12-25" name = "duedate" />
+            </div>
+            <div class = "field-group">
+                <label for ="workflow-pool-select">Select default Pools for Calculation</label>
+                <select id="workflow-pools" multiple="" name ="workflow-pools">
+                    <option value = "ux-done">UX Done</option>
+                    <option value = "done">Done</option>
+                    <option value = "issue-pool">Issue Pool</option>
+                    <option value = "ux-backlog">UX Backlog</option>
+                    <option value = "closed">Closed</option>
+                    <option value = "dev">Development</option>
+                    <option value = "ux-dev">UX Development</option>
+                    <option value = "backlog">Backlog</option>
+                </select>
+            </div>
+            <div class="field-group">
+                <input type="submit" value="Save" class="aui-button aui-button-primary" id ="save">
+                <a href="${req.contextPath}/browse/${id}" class="cancel">Cancel</a>
+            </div>
+
+        </form>
+    </body>
 </html>
